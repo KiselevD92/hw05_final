@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Избранные авторы{% endblock %}
+{% block content %}
+{% load cache %}
+{% cache 20 follow_page %}
+<div class="container py">
+  <h1> Избранные авторы </h1>
+  {% include 'includes/switcher.html' %}
+  {% for post in page_obj %}
+  {% include 'includes/article.html' with index=True %}
+  {% endfor %}
+    <!-- под последним постом нет линии -->
+  {% include 'includes/paginator.html' %}
+</div>
+{% endcache %}
+{% endblock %}
