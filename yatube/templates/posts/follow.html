@@ -9,8 +9,8 @@
   {% for post in page_obj %}
   {% include 'includes/article.html' with index=True %}
   {% endfor %}
+  {% endcache %}
     <!-- под последним постом нет линии -->
   {% include 'includes/paginator.html' %}
 </div>
-{% endcache %}
 {% endblock %}
