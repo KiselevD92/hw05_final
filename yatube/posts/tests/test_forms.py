@@ -6,7 +6,6 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
-from ..forms import PostForm
 from ..models import Group, Post, User
 
 
@@ -28,7 +27,6 @@ class PostFormTests(TestCase):
             author=cls.user,
             text='Тестовый пост',
         )
-        cls.form = PostForm()
 
     @classmethod
     def tearDownClass(cls):
@@ -75,12 +73,7 @@ class PostFormTests(TestCase):
         post = Post.objects.first()
         self.assertEqual(post.text, form_data['text'])
         self.assertEqual(post.author, self.user)
-        self.assertTrue(
-            Post.objects.filter(
-                text=form_data['text'],
-                image='posts/small.gif'
-            ).exists()
-        )
+        self.assertEqual(post.image.name, 'posts/' + form_data['image'].name)
 
     def test_create_anonim_form(self):
         """Валидная форма создает запись в Post от
@@ -113,7 +106,6 @@ class PostEditFormTests(TestCase):
             author=cls.user,
             text='Тестовый пост',
         )
-        cls.form = PostForm()
 
     def setUp(self):
         self.authorized_client = Client()

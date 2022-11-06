@@ -11,6 +11,8 @@ from django.urls import reverse
 
 from ..models import Group, Post, Comment, Follow
 
+TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
+
 User = get_user_model()
 
 
@@ -31,6 +33,7 @@ class PostViewsTest(TestCase):
         )
 
     def setUp(self):
+        cache.clear()
         self.guest_client = Client()
         self.authorized_client = Client()
         self.authorized_client.force_login(PostViewsTest.user)
@@ -76,6 +79,7 @@ class PostContextTest(TestCase):
         )
 
     def setUp(self):
+        cache.clear()
         self.guest_client = Client()
         self.authorized_client = Client()
         self.authorized_client.force_login(PostContextTest.user)
@@ -263,6 +267,7 @@ class PaginatorViewsTest(TestCase):
             )
 
     def setUp(self):
+        cache.clear()
         self.guest_client = Client()
         self.authorized_client = Client()
         self.authorized_client.force_login(PaginatorViewsTest.user)
@@ -306,9 +311,6 @@ class PaginatorViewsTest(TestCase):
                 )
 
 
-TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
-
-
 @override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
 class PostImageTests(TestCase):
     @classmethod
@@ -346,6 +348,7 @@ class PostImageTests(TestCase):
         shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
 
     def setUp(self):
+        cache.clear()
         self.guest_client = Client()
 
     def test_image_in_context(self):
@@ -390,6 +393,7 @@ class CommentTest(TestCase):
         )
 
     def setUp(self):
+        cache.clear()
         self.guest_client = Client()
         self.authorized_client = Client()
         self.authorized_client.force_login(CommentTest.user)
@@ -436,6 +440,7 @@ class FollowTest(TestCase):
         )
 
     def setUp(self):
+        cache.clear()
         self.guest_client = Client()
         self.user = User.objects.create_user(username='Kiselev')
         self.authorized_client = Client()

@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import PostForm, CommentForm
-from .models import Group, Post, User, Comment, Follow
+from .models import Group, Post, User, Follow
 
 
 def paginator_page(request, data):
@@ -52,7 +52,7 @@ def post_detail(request, post_id):
     unique_post = get_object_or_404(Post, pk=post_id)
     number_of_posts = unique_post.author.posts.count()
     form = CommentForm(request.POST or None)
-    comments = Comment.objects.filter(post=unique_post)
+    comments = unique_post.comments.filter(post=unique_post)
     context = {
         'unique_post': unique_post,
         'number_of_posts': number_of_posts,
@@ -136,6 +136,5 @@ def profile_follow(request, username):
 
 @login_required
 def profile_unfollow(request, username):
-    author = get_object_or_404(User, username=username)
-    Follow.objects.get(user=request.user, author=author).delete()
+    get_object_or_404(User, username=username).delete()
     return redirect('posts:follow_index')
