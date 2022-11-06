@@ -2,7 +2,6 @@
 {% load thumbnail %}
 {% block title %}Пост {{ unique_post.text|truncatechars:30 }}{% endblock %}
 {% block content %}
-<div class="container py-5">
 <div class="row">
   <aside class="col-12 col-md-3">
     <ul class="list-group list-group-flush">
@@ -42,6 +41,5 @@
     {% endif %}
     {% include 'includes/comment.html' %}
   </article>
-</div>
 </div>
 {% endblock %}
