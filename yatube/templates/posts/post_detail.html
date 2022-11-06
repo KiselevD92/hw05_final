@@ -35,7 +35,6 @@
     <p>
       {{ unique_post.text }}
     </p>
-     <!-- эта кнопка видна только автору -->
     {% if user.username == unique_post.author.username %}
     <a class="btn btn-primary" href="{% url 'posts:post_edit' unique_post.id %}">
       редактировать запись

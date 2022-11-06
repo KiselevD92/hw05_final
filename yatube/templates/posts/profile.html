@@ -22,7 +22,6 @@
 {% for post in page_obj %}
 {% include 'includes/article.html' with profile=True %}
 {% endfor %}
-<!-- если записей больше 10 -- подключён паджинатор -->
 {% include 'includes/paginator.html' %}
 </div>
 {% endblock %}

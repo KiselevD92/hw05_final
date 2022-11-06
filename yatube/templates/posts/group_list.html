@@ -9,7 +9,6 @@
   {% for post in page_obj %}
   {% include 'includes/article.html' with group_list=True %}
   {% endfor %}
-    <!-- под последним постом нет линии -->
   {% include 'includes/paginator.html' %}
 </div>
 {% endblock %}

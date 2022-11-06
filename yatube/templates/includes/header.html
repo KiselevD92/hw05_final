@@ -4,13 +4,8 @@
         <div class="container">
         <a class="navbar-brand" href="{% url 'posts:index' %}">
             <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
-            <!-- тег span используется для добавления нужных стилей отдельным участкам текста -->
             <span style="color:red">Ya</span>tube
         </a>
-      {% comment %}
-      Меню - список пунктов со стандартными классами Bootsrap.
-      Класс nav-pills нужен для выделения активных пунктов
-      {% endcomment %}
       <ul class="nav nav-pills">
         {% with request.resolver_match.view_name as view_name %}
         <li class="nav-item">

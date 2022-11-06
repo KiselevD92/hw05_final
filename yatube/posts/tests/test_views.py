@@ -35,7 +35,6 @@ class PostViewsTest(TestCase):
         self.authorized_client = Client()
         self.authorized_client.force_login(PostViewsTest.user)
 
-    # Проверяем используемые шаблоны
     def test_pages_uses_correct_template(self):
         """URL-адрес использует соответствующий шаблон."""
         templates_pages_names = {
@@ -347,7 +346,6 @@ class PostImageTests(TestCase):
         shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
 
     def setUp(self):
-        # Создаем неавторизованный клиент
         self.guest_client = Client()
 
     def test_image_in_context(self):

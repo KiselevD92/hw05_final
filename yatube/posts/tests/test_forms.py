@@ -43,7 +43,6 @@ class PostFormTests(TestCase):
 
     def test_create_form(self):
         """Валидная форма создает запись в Post."""
-        # Подсчитаем количество записей в Post
         posts_count = Post.objects.count()
         small_gif = (
             b'\x47\x49\x46\x38\x39\x61\x02\x00'
@@ -62,19 +61,16 @@ class PostFormTests(TestCase):
             'text': 'Текст',
             'image': uploaded,
         }
-        # Отправляем POST-запрос
         response = self.authorized_client.post(
             reverse('posts:post_create'),
             data=form_data,
             follow=True
         )
-        # Проверяем, сработал ли редирект
         self.assertRedirects(
             response, reverse(
                 'posts:profile',
                 kwargs={'username': self.user})
         )
-        # Проверяем, увеличилось ли число постов
         self.assertEqual(Post.objects.count(), posts_count + 1)
         post = Post.objects.first()
         self.assertEqual(post.text, form_data['text'])
@@ -89,21 +85,17 @@ class PostFormTests(TestCase):
     def test_create_anonim_form(self):
         """Валидная форма создает запись в Post от
         анонимного пользователя."""
-        # Подсчитаем количество записей в Post
         posts_count = Post.objects.count()
         form_data = {
             'text': 'Текст',
         }
-        # Отправляем POST-запрос
         response = self.guest_client.post(
             reverse('posts:post_create'),
             data=form_data,
             follow=True
         )
-        # Проверяем, сработал ли редирект
         self.assertRedirects(
             response, '/auth/login/?next=/create/')
-        # Проверяем, увеличилось ли число постов
         self.assertEqual(Post.objects.count(), posts_count)
 
 
