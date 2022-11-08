@@ -4,7 +4,7 @@ from django.views.decorators.cache import cache_page
 
 from .forms import PostForm, CommentForm
 from .models import Group, Post, User, Follow
-from core.context_processors.paginator import paginator_page
+from core.utils import paginator_page
 
 
 @cache_page(20, key_prefix='index_page')
@@ -33,7 +33,10 @@ def profile(request, username):
     post_list = author.posts.select_related("group", "author")
     count_all_posts = author.posts.count()
     page_obj = paginator_page(request, post_list)
-    following = request.user.is_authenticated and author.following.exists()
+    following = (
+        request.user.is_authenticated
+        and author.following.filter(user=request.user).exists()
+    )
     context = {
         'page_obj': page_obj,
         'author': author,
@@ -46,7 +49,7 @@ def profile(request, username):
 def post_detail(request, post_id):
     unique_post = get_object_or_404(Post, pk=post_id)
     number_of_posts = unique_post.author.posts.count()
-    form = CommentForm(request.POST)
+    form = CommentForm()
     comments = unique_post.comments.filter(post=unique_post)
     context = {
         'unique_post': unique_post,
